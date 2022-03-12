@@ -61,18 +61,13 @@ def encryption_oracle_CBC_ECB(message,key):
     return(val)
 
 def detect_encryption(ciphertext):
-    print(ciphertext)
     chunkSize = 16
     chunks = []
     print(chunks)
     print(len)
     for i in range(0, len(ciphertext), chunkSize):
          chunks.append(ciphertext[i:i+chunkSize])
-    print(chunks)
-    print(len(chunks))
     uniquechunks= set(chunks)
-    print(uniquechunks)
-    print(len(uniquechunks))
     if len(chunks) > len(uniquechunks):
         return "ECB"
     return "CBC"

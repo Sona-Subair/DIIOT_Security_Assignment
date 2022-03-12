@@ -112,6 +112,17 @@ def AES_Decrypt(txt,key):
     val=decryptor.update(txt_bytes) + decryptor.finalize()
     return (str(val,encoding='ascii'))
 
+def Detect_Aes_string(ciphertext,chunkSize):
+    length=len(ciphertext)
+    for j in range(length):
+        chunkSize = 16
+        chunks = []
+        for i in range(0, len(ciphertext), chunkSize):
+            chunks.append(ciphertext[i:i+chunkSize])
+        uniquechunks= set(chunks)
+        if len(chunks) > len(uniquechunks):
+            return j
+    return -1
 
     
 data_str="49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
@@ -131,6 +142,8 @@ decrypted_data=AES_Decrypt(text,Aes_key)
 print(decrypted_data)
 target_url="https://cryptopals.com/static/challenge-data/8.txt"
 f=urllib.request.urlopen(target_url)
-hex_text=f.read()
-key="abcdefghijklmnop"
-#Detect_Aes_string(cipher_text,key)
+for lines in f:
+    lines=f.readlines()
+key_length=16
+index=Detect_Aes_string(lines,key_length)
+print(index)
